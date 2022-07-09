@@ -41,6 +41,12 @@ export const Header = () => {
               <Button variant="contained" component={Link} to="/">
               Signin
               </Button>
+              <Button variant="contained" component={Link} to="/teacher">
+              Teacher
+              </Button>
+              <Button variant="contained" component={Link} to="/prin">
+              Principle
+              </Button>
             </Tabs>
           )}
         </Toolbar>
