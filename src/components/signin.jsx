@@ -1,13 +1,46 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Container, Box, Button, Grid, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+
+export const Api=()=>{
+    const [data,setData]=useState([])
+
+    useEffect(()=>{
+        fetch('http://jsonplaceholder.typicode.com/users/').then(
+            response=>response.json()
+            ).then(json=>setData(json))
+         },[])
+    return(
+        <div style={{marginTop:"100px"}}>
+            <h1>Api fetching</h1>
+            <table>
+                <tr>
+                <th>id</th>
+                <th>Name</th>
+                </tr>
+                
+                {data.map((item) => {
+                      return (
+                        <tr>
+                         
+
+                          <td>{item.id}</td>
+                          <td>{item.name}</td>
+                </tr>
+                 );
+                })}
+            </table>
+           
+        </div>
+    )
+}
 
 export const Signin = () => {
   const [user, setUser] = useState({
     id: "",
   });
 
-  
+ 
   
   let history = useNavigate();
   
@@ -17,13 +50,13 @@ export const Signin = () => {
 
       setErr(0);
 
-      if (user.id.length<6) {
+      if (user.id.length<1) {
         setErr(1);
         alert("please enter your id")
        
       }  else {
         console.log(user)
-        // history("/cards");
+         history('/api')
       }
     }
   
@@ -61,12 +94,13 @@ export const Signin = () => {
                 </Button>
               </Grid>
               <Grid item xs={12}>
-              <p>If you don't have an account please signup</p>
+              <p>If you don't have an account please <a href="/signup">signup</a></p>
               </Grid>
             </Grid>
           </Grid>
         </Box>
       </Container>
+     
     </div>
   );
 };
