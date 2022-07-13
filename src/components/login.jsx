@@ -1,12 +1,12 @@
-import React from "react";
+import React,{useContext} from "react";
 import { Box, Container, Grid, TextField, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-
+import {UserContext, RoleContext} from './usercontext'
 const axios = require("axios");
 export const Login = () => {
   let history = useNavigate();
-
+  const { setAuth } = useContext(UserContext);
   const [user, setUsers] = useState({
     id: "",
   });
@@ -19,29 +19,29 @@ export const Login = () => {
       setErr(1);
       alert("Please enter a valid 3 digit idnumber");
     } else {
-      axios
-        .post("/innerjoin", {
-          id: user.id,
-        })
-        .then(function (response) {
-          console.log(response);
-          console.log("logged in");
+      // axios
+      //   .post("/select", {
+      //     stud_id: user.id,
+      //   })
+      //   .then(function (response) {
+      //     console.log(response);
+      //     console.log("logged in");
 
-          if (response?.status === 200) history("/studenttable");
-          else {
-            alert(response?.message);
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      //     if (response?.status === 200) history("/studenttable");
+      //     else {
+      //       alert(response?.message);
+      //     }
+      //   })
+      //   .catch(function (error) {
+      //     console.log(error);
+      //   });
 
       // const formdata = new FormData();
       // //formdata.append("name", user.name);
       // formdata.append("id", user.id);
       // console.log(formdata);
-      // history("/studenttable");
-
+      history("/studenttable");
+      setAuth({ user_role: user.id });
       console.log("res.data");
     }
   };
@@ -95,7 +95,9 @@ export const Login = () => {
                 <Button
                   variant="contained"
                   color="secondary"
-                  onClick={validateForm}
+                  onClick={() => { validateForm();
+                    localStorage.setItem("ID", user.id);
+                  }}
                 >
                   Login
                 </Button>
