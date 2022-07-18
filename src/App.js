@@ -1,39 +1,42 @@
-import React from "react";
-import "./App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useTheme, useMediaQuery } from "@mui/material";
-import { Header } from "./components/header";
-import { Footer } from "./components/footer";
-import {Signin, Api} from './components/signin'
-import {SimpleAccordion} from './components/accordion'
+import React,{useState} from "react";
+// import logo from './logo.svg';
 import { Signup } from "./components/signup";
-import {Teacher, Tapi} from './components/teacher'
-import {Edit} from './components/edit'
-import { Principle,Papi } from "./components/princilpe";
+import { BrowserRouter as Router, Routes, Link, Route } from 'react-router-dom';
+import { UserContext,RoleContext } from "./components/usercontext";
+import "./App.css";
+import {Studenttable } from "./components/studenttable"
+
+import {Login } from "./components/login"
+
+
 function App() {
-  const theme = useTheme();
-  const isMatch = useMediaQuery(theme.breakpoints.down("md"));
+
+  const [auth, setAuth] = useState(null);
+  const [role, setRole] = useState(null);
   return (
-    <div className="page-container">
-      <div className="content-wrap">
+    <div className="App">
+       
+
+<UserContext.Provider value={{ auth, setAuth }}>
+<RoleContext.Provider value={{ role, setRole }}>
       <Router>
-              <Header />
-              
-              <Routes>
-              <Route path="/" element={<Signin />} />
-              <Route path="/api" element={<Api />}/>
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/tapi" element={<Tapi />}/>
-              <Route path="/papi" element={<Papi />}/>
-              <Route path="/teacher" element={<Teacher />} />
-              <Route path="/prin" element={<Principle />} />
-              <Route path="/edit/:id" element={<Edit />} />
-       </Routes>
-       </Router>
-      </div>
-      <React.Fragment>
-          {isMatch ? <SimpleAccordion /> : <Footer />}
-        </React.Fragment>
+
+      <Link to="/"><h1>Home</h1></Link>&nbsp;&nbsp;
+        <Link to="/signup"><h1>Signup:</h1></Link>&nbsp;&nbsp;
+        
+        <Link to="/login"><h1> login</h1></Link>&nbsp;&nbsp;
+        <Routes>
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/studenttable" element={<Studenttable />} />
+          
+          <Route path="/login" element={<Login />} />
+         
+          
+        </Routes>
+      </Router>
+      </RoleContext.Provider>
+      </UserContext.Provider>
+      
     </div>
   );
 }
